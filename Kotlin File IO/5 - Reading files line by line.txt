@@ -1,0 +1,61 @@
+Reading files line by line is a common scenario when dealing with text files. In Kotlin, you can use `BufferedReader` or Kotlin's extension function `forEachLine()` to read files line by line. Here's an example using both approaches:
+
+1. Using `BufferedReader`:
+
+```kotlin
+import java.io.BufferedReader
+import java.io.File
+import java.io.FileReader
+import java.io.IOException
+
+fun main() {
+    val fileName = "example.txt"
+
+    try {
+        val file = File(fileName)
+        val reader = BufferedReader(FileReader(file))
+
+        reader.useLines { lines ->
+            lines.forEach { line ->
+                // Process the line here
+                println(line)
+            }
+        }
+    } catch (e: IOException) {
+        println("Error reading the file: ${e.message}")
+    }
+}
+```
+
+2. Using `forEachLine()` extension function:
+
+```kotlin
+import java.io.File
+import java.io.IOException
+
+fun main() {
+    val fileName = "example.txt"
+
+    try {
+        val file = File(fileName)
+
+        file.forEachLine { line ->
+            // Process the line here
+            println(line)
+        }
+    } catch (e: IOException) {
+        println("Error reading the file: ${e.message}")
+    }
+}
+```
+
+In both examples:
+
+1. We import the necessary classes: `java.io.BufferedReader`, `java.io.File`, `java.io.FileReader`, and `java.io.IOException`.
+2. We specify the name of the text file we want to read (`example.txt`). Make sure the file exists in the same directory as the Kotlin source file.
+3. We use a `try-catch` block to handle any potential exceptions that might occur during file reading.
+4. Inside the `try` block, we create a `File` object representing the text file and use `BufferedReader` in the first example or Kotlin's `forEachLine()` extension function in the second example to read the file line by line.
+5. We process each line within the lambda passed to either `forEach` (in the first example) or `forEachLine` (in the second example). In this example, we simply print each line to the console.
+6. The `useLines` function (in the first example) ensures that the `BufferedReader` is properly closed after reading the file.
+
+Both methods are efficient and handle large files gracefully while simplifying the process of reading files line by line in Kotlin.

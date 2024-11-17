@@ -1,0 +1,43 @@
+Reading binary files in Kotlin is similar to reading text files, but instead of using `readLines()`, we use input streams to read bytes from the file. Here's an example of how to read a binary file in Kotlin:
+
+```kotlin
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
+
+fun main() {
+    val fileName = "example.bin"
+
+    try {
+        val file = File(fileName)
+        val inputStream = FileInputStream(file)
+        val buffer = ByteArray(1024) // Adjust buffer size as needed
+
+        var bytesRead: Int
+        while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+            // Process the bytes read here, if needed
+            // In this example, we just print them as hexadecimal values
+            for (i in 0 until bytesRead) {
+                print("%02X ".format(buffer[i]))
+            }
+        }
+
+        inputStream.close()
+    } catch (e: IOException) {
+        println("Error reading the file: ${e.message}")
+    }
+}
+```
+
+In this example:
+
+1. We import the necessary classes: `java.io.File`, `java.io.FileInputStream`, and `java.io.IOException`.
+2. We specify the name of the binary file we want to read (`example.bin`). Make sure the file exists in the same directory as the Kotlin source file.
+3. We use a `try-catch` block to handle any potential exceptions that might occur during file reading.
+4. Inside the `try` block, we create a `File` object representing the binary file and create a `FileInputStream` to read the bytes from the file.
+5. We use a byte array called `buffer` to read chunks of data from the file. You can adjust the buffer size depending on your specific use case.
+6. We use a `while` loop to read the file in chunks until we reach the end of the file (`-1` indicates the end of the file).
+7. Within the loop, we process the bytes read as needed. In this example, we print each byte's hexadecimal value using `%02X` format specifier.
+8. Finally, we close the input stream to release any system resources.
+
+As with reading text files, it's essential to handle exceptions gracefully to ensure your program behaves well in case of any file-related issues. Also, remember to replace `"example.bin"` with the actual name of the binary file you want to read.

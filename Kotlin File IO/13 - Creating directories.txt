@@ -1,0 +1,44 @@
+In Kotlin, you can create directories using the `mkdir()` or `mkdirs()` functions provided by the `java.io.File` class. The `mkdir()` function creates a single directory, while the `mkdirs()` function creates the entire directory tree, including parent directories if they do not exist. Here's an example of how to create directories using both methods:
+
+```kotlin
+import java.io.File
+
+fun main() {
+    val directoryPath1 = "my_directory1"
+    val directoryPath2 = "my_directory2/sub_directory"
+
+    try {
+        // Using mkdir() to create a single directory
+        val directory1 = File(directoryPath1)
+        if (directory1.mkdir()) {
+            println("Directory '$directoryPath1' created successfully.")
+        } else {
+            println("Failed to create directory '$directoryPath1'.")
+        }
+
+        // Using mkdirs() to create multiple directories with parent directories
+        val directory2 = File(directoryPath2)
+        if (directory2.mkdirs()) {
+            println("Directory '$directoryPath2' created successfully.")
+        } else {
+            println("Failed to create directory '$directoryPath2'.")
+        }
+    } catch (e: Exception) {
+        println("Error creating directories: ${e.message}")
+    }
+}
+```
+
+In this example:
+
+1. We specify two directory paths: `my_directory1` and `my_directory2/sub_directory`.
+
+2. We use a `try-catch` block to handle any potential exceptions that might occur during directory creation.
+
+3. We create a `File` object for each directory path.
+
+4. We use the `mkdir()` function for `directory1`, which attempts to create a single directory. If successful, it prints a success message; otherwise, it prints a failure message.
+
+5. We use the `mkdirs()` function for `directory2`, which creates all directories along the path if they do not exist. If successful, it prints a success message; otherwise, it prints a failure message.
+
+Remember that the directory path is relative to the current working directory of your Kotlin program. If you want to specify an absolute path, make sure to provide the full path (e.g., `"C:/my_directory"`, `"/home/user/my_directory"`, etc.). Also, handle exceptions gracefully to ensure your program behaves well in case of any issues during directory creation.

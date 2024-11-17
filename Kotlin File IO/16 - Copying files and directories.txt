@@ -1,0 +1,75 @@
+To copy files and directories in Kotlin, you can create a recursive function that handles both scenarios separately. For files, you can use `FileInputStream` and `FileOutputStream` to copy the content, and for directories, you can use `listFiles()` and recursion to copy the contents of subdirectories. Here's an example of how to copy files and directories:
+
+```kotlin
+import java.io.*
+
+fun copyFile(source: File, destination: File) {
+    val inputStream = FileInputStream(source)
+    val outputStream = FileOutputStream(destination)
+    val buffer = ByteArray(1024) // Adjust buffer size as needed
+
+    var bytesRead: Int
+    while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+        outputStream.write(buffer, 0, bytesRead)
+    }
+
+    inputStream.close()
+    outputStream.close()
+}
+
+fun copyDirectory(source: File, destination: File) {
+    if (!destination.exists()) {
+        destination.mkdir()
+    }
+
+    if (source.isDirectory) {
+        val files = source.listFiles()
+        if (files != null) {
+            for (file in files) {
+                val destFile = File(destination, file.name)
+                if (file.isDirectory) {
+                    copyDirectory(file, destFile)
+                } else {
+                    copyFile(file, destFile)
+                }
+            }
+        }
+    }
+}
+
+fun main() {
+    val sourcePath = "source_directory"
+    val destinationPath = "destination_directory"
+
+    try {
+        val source = File(sourcePath)
+        val destination = File(destinationPath)
+
+        if (source.exists()) {
+            if (source.isDirectory) {
+                copyDirectory(source, destination)
+                println("Directory copied successfully.")
+            } else {
+                copyFile(source, destination)
+                println("File copied successfully.")
+            }
+        } else {
+            println("Source does not exist.")
+        }
+    } catch (e: IOException) {
+        println("Error copying files and directories: ${e.message}")
+    }
+}
+```
+
+In this example:
+
+1. We define a `copyFile()` function that takes the source file and the destination file as arguments and copies the content from the source file to the destination file.
+
+2. We define a `copyDirectory()` function that takes the source directory and the destination directory as arguments. If the destination directory doesn't exist, we create it using `mkdir()`.
+
+3. In the `copyDirectory()` function, we check if the source is a directory using `isDirectory()`. If it is a directory, we list its files using `listFiles()` and copy each file or subdirectory using recursion.
+
+4. In the `main()` function, we specify the source path (`source_directory`) and the destination path (`destination_directory`) where the content should be copied. Replace these paths with the actual paths you want to use.
+
+Remember to handle exceptions gracefully to ensure your program behaves well in case of any issues during copying.

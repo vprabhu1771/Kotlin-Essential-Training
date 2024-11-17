@@ -1,0 +1,53 @@
+Certainly! Below is an example of how to use `FileInputStream` and `FileOutputStream` to copy a binary file from the source to the destination:
+
+```kotlin
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+
+fun main() {
+    val sourceFileName = "source.bin"
+    val destinationFileName = "destination.bin"
+
+    try {
+        val sourceFile = File(sourceFileName)
+        val destinationFile = File(destinationFileName)
+
+        val inputStream = FileInputStream(sourceFile)
+        val outputStream = FileOutputStream(destinationFile)
+
+        val buffer = ByteArray(1024) // Adjust buffer size as needed
+        var bytesRead: Int
+
+        while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+            outputStream.write(buffer, 0, bytesRead)
+        }
+
+        inputStream.close()
+        outputStream.close()
+
+        println("File copied successfully from $sourceFileName to $destinationFileName.")
+    } catch (e: IOException) {
+        println("Error copying the file: ${e.message}")
+    }
+}
+```
+
+In this example:
+
+1. We specify the name of the source file (`source.bin`) and the destination file (`destination.bin`) you want to copy the data to. Make sure the source file exists in the same directory as the Kotlin source file.
+
+2. We use a `try-catch` block to handle any potential exceptions that might occur during file copying.
+
+3. Inside the `try` block, we create `File` objects representing the source and destination files.
+
+4. We create `FileInputStream` and `FileOutputStream` to read from the source file and write to the destination file, respectively.
+
+5. We use a buffer of size 1024 bytes to read data from the source file in chunks. You can adjust the buffer size based on your requirements.
+
+6. We use a `while` loop to read data from the source file in chunks using `inputStream.read(buffer)` and write the same data to the destination file using `outputStream.write(buffer, 0, bytesRead)`.
+
+7. Finally, we close both the `inputStream` and `outputStream` to save the changes and release any system resources.
+
+Keep in mind that this example is suitable for binary files. If you want to copy text files, you can use similar logic, but remember to handle character encodings properly during file copying.

@@ -1,0 +1,42 @@
+To append data to an existing file in Kotlin, you can use `FileWriter` with the `true` flag for appending. Here's an example of how to append text to an existing file:
+
+```kotlin
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
+
+fun main() {
+    val fileName = "existing_file.txt"
+
+    try {
+        val file = File(fileName)
+        val writer = BufferedWriter(FileWriter(file, true))
+
+        // Appending new lines to the existing file
+        writer.write("Additional line 1.")
+        writer.newLine() // Move to the next line
+        writer.write("Additional line 2.")
+        
+        // Don't forget to close the writer when you're done
+        writer.close()
+
+        println("Text appended to $fileName successfully.")
+    } catch (e: IOException) {
+        println("Error appending to the file: ${e.message}")
+    }
+}
+```
+
+In this example:
+
+1. We import the necessary classes: `java.io.BufferedWriter`, `java.io.File`, `java.io.FileWriter`, and `java.io.IOException`.
+2. We specify the name of the existing file we want to append data to (`existing_file.txt`). Make sure the file exists in the same directory as the Kotlin source file.
+3. We use a `try-catch` block to handle any potential exceptions that might occur during file appending.
+4. Inside the `try` block, we create a `File` object representing the existing file and use `BufferedWriter` with `FileWriter(file, true)` to append text to the file.
+5. We use the `write` function to append text to the file. In this example, we append two lines to the existing file. The `newLine()` function is used to move to the next line after appending each line.
+6. Finally, we close the `BufferedWriter` to save the changes and release any system resources.
+
+When using `FileWriter` with the `true` flag, it will open the file in append mode, ensuring that the new data is written at the end of the existing file content. If the file doesn't exist, it will be created.
+
+Remember to handle exceptions gracefully to ensure your program behaves well in case of any issues while appending to the file. Also, make sure to change `"existing_file.txt"` to the name of the file you want to append data to.

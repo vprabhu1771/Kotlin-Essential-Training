@@ -1,0 +1,32 @@
+Sure! Here's an example of how to read a text file in Kotlin using standard library functions:
+
+```kotlin
+import java.io.File
+
+fun main() {
+    val fileName = "example.txt"
+    
+    try {
+        val file = File(fileName)
+        val lines = file.readLines()
+        
+        // Print each line of the file
+        for (line in lines) {
+            println(line)
+        }
+    } catch (e: Exception) {
+        println("Error reading the file: ${e.message}")
+    }
+}
+```
+
+In this example:
+
+1. We import the `java.io.File` class, which allows us to work with files.
+2. We specify the name of the text file we want to read (`example.txt`). Make sure the file exists in the same directory as the Kotlin source file.
+3. We use a `try-catch` block to handle any potential exceptions that might occur during file reading.
+4. Inside the `try` block, we create a `File` object representing the text file.
+5. We use the `readLines()` function on the `File` object, which reads all the lines from the file and returns them as a list of strings.
+6. We then iterate through the list of lines using a `for` loop and print each line to the console.
+
+Remember to replace `"example.txt"` with the actual name of the text file you want to read. Also, handle any exceptions gracefully as shown in the example to ensure your program doesn't crash if there's an issue with the file.

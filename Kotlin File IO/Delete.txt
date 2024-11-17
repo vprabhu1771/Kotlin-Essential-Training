@@ -1,0 +1,30 @@
+import java.io.File
+import java.io.IOException
+
+fun main() {
+
+    try {
+        val songs = File("songs.txt")
+
+        if (songs.exists())
+        {
+            songs.delete()
+            print("File Deleted Successfully")
+        }
+        else
+        {
+            print("File Not Found")
+        }
+
+    }
+    catch (e: IOException)
+    {
+        print(e.localizedMessage)
+    }
+
+
+}
+
+OUTPUT
+
+File Deleted Successfully

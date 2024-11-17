@@ -1,0 +1,80 @@
+To delete files and directories in Kotlin, you can use the `java.io.File` class and its `delete()` method. For directories, you may need to use a recursive function to delete the directory and its contents. Here's an example of how to delete files and directories:
+
+```kotlin
+import java.io.File
+
+fun deleteFile(filePath: String) {
+    val fileToDelete = File(filePath)
+
+    if (fileToDelete.exists()) {
+        if (fileToDelete.delete()) {
+            println("File deleted successfully.")
+        } else {
+            println("Failed to delete the file.")
+        }
+    } else {
+        println("File does not exist.")
+    }
+}
+
+fun deleteDirectory(directoryPath: String) {
+    val directoryToDelete = File(directoryPath)
+
+    if (directoryToDelete.exists() && directoryToDelete.isDirectory) {
+        val files = directoryToDelete.listFiles()
+
+        if (files != null) {
+            for (file in files) {
+                if (file.isDirectory) {
+                    deleteDirectory(file.absolutePath)
+                } else {
+                    if (file.delete()) {
+                        println("File '${file.name}' deleted successfully.")
+                    } else {
+                        println("Failed to delete file '${file.name}'.")
+                    }
+                }
+            }
+        }
+
+        if (directoryToDelete.delete()) {
+            println("Directory deleted successfully.")
+        } else {
+            println("Failed to delete the directory.")
+        }
+    } else {
+        println("Directory does not exist.")
+    }
+}
+
+fun main() {
+    val filePathToDelete = "file_to_delete.txt"
+    val directoryPathToDelete = "directory_to_delete"
+
+    try {
+        // Delete a file
+        deleteFile(filePathToDelete)
+
+        // Delete a directory
+        deleteDirectory(directoryPathToDelete)
+    } catch (e: Exception) {
+        println("Error deleting files and directories: ${e.message}")
+    }
+}
+```
+
+In this example:
+
+1. We specify the file path (`file_to_delete.txt`) and directory path (`directory_to_delete`) for deletion.
+
+2. We use a `try-catch` block to handle any potential exceptions that might occur during file and directory deletion.
+
+3. We define two functions: `deleteFile()` to delete a single file and `deleteDirectory()` to delete a directory and its contents recursively.
+
+4. In the `deleteFile()` function, we use the `File` class to represent the file path, check if the file exists, and then call `delete()` to delete the file.
+
+5. In the `deleteDirectory()` function, we use the `File` class to represent the directory path, check if the directory exists, and then recursively delete its contents and finally delete the directory itself.
+
+6. After each deletion operation, we check if the operation was successful and print the appropriate message.
+
+Remember to handle exceptions gracefully to ensure your program behaves well in case of any issues during file and directory deletion. Also, exercise caution when deleting files and directories, as the operation cannot be undone and may lead to data loss. Double-check that you are deleting the correct files and directories before running the program.

@@ -1,0 +1,28 @@
+import java.io.File
+import java.io.IOException
+
+fun main() {
+
+    try {
+        val songs = File("songs.txt")
+
+        if (!songs.exists())
+        {
+            songs.createNewFile()
+        }
+        else
+        {
+            print("File Already Exists")
+        }
+    }
+    catch (e: IOException)
+    {
+        print(e.localizedMessage)
+    }
+
+
+}
+
+OUTPUT
+
+File Created Successfully

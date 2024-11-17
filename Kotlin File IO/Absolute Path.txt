@@ -1,0 +1,21 @@
+import java.io.File
+import java.io.IOException
+
+fun main() {
+
+    try {
+        val songs = File("songs.txt")
+
+        print(songs.absolutePath)
+    }
+    catch (e: IOException)
+    {
+        print(e.localizedMessage)
+    }
+
+
+}
+
+OUTPUT
+
+C:\Users\windows_rig3\IdeaProjects\FileIO\songs.txt
